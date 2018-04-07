@@ -57,6 +57,40 @@ export class OrValidator extends Validator {
   }
 }
 
+export class ArrayValidator extends Validator {
+  public readonly elementValidator: Validator;
+
+  constructor(elementValidator: Validator) {
+    super();
+    this.elementValidator = elementValidator;
+  }
+
+  public validate(input: any) {
+    if (!(input instanceof Array)) {
+      throw new ValidationError("ArrayValidator failed; not an array");
+    }
+
+    input.forEach((element, index) => {
+      try {
+        this.elementValidator.validate(element)
+      } catch (e) {
+        if (e instanceof ValidationError) {
+          throw new ValidationError(`ArrayValidator failed on element #${index}`, [e]);
+        } else {
+          throw e;
+        }
+      }
+    });
+  }
+
+  public describe() {
+    return Validator.describeHelper("ArrayValidator", {
+      elementValidator: this.elementValidator.describe()
+    });
+  }
+}
+
+
 export class ObjectValidator extends Validator {
   public readonly propertyValidators: Readonly<{
     [propertyName: string]: Validator;

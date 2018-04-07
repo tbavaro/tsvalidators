@@ -19,6 +19,14 @@ export declare class OrValidator extends Validator {
         kind: string;
     };
 }
+export declare class ArrayValidator extends Validator {
+    readonly elementValidator: Validator;
+    constructor(elementValidator: Validator);
+    validate(input: any): void;
+    describe(): {
+        kind: string;
+    };
+}
 export declare class ObjectValidator extends Validator {
     readonly propertyValidators: Readonly<{
         [propertyName: string]: Validator;
