@@ -119,9 +119,7 @@ export class TypeOfValidator implements Validator {
   }
 }
 
-export class ExactValueValidator<
-  T extends (null | undefined | string | number | boolean)
-> implements Validator {
+export class ExactValueValidator<T> implements Validator {
   public readonly values: ReadonlyArray<T>;
 
   constructor(values: T[] | T) {
